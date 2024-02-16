@@ -3,10 +3,8 @@ import streamlit
 import warnings
 
 warnings.filterwarnings('ignore')
-import pickle
 
-with open('model.pkl', 'rb') as file:
-    model = pickle.load(file)
+
 
 df = pd.read_csv('loan_data.csv')
 df.head()
