@@ -1,10 +1,10 @@
 import pandas as pd
 import streamlit
 import warnings
+
 warnings.filterwarnings('ignore')
 import pickle
 import plotly.express as px
-
 
 with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
@@ -13,13 +13,13 @@ df = pd.read_csv('loan_data.csv')
 df.head()
 
 cat_cols = [col for col in df.columns if df[col].dtypes in ['object']]
-num_but_cat = [col for col in df.columns if df[col].nunique()<=5 and df[col].dtype in ['float64','int64']]
+num_but_cat = [col for col in df.columns if df[col].nunique() <= 5 and df[col].dtype in ['float64', 'int64']]
 cat_cols = cat_cols + num_but_cat
 
-df[cat_cols].drop('Loan_ID',axis=1,inplace=True)
+df[cat_cols].drop('Loan_ID', axis=1, inplace=True)
 
 streamlit.set_page_config(page_title='Müşteri Kredi Uygunluğu Sorgulama')
-tabs = ['Kredi Sonucu Tahmin','Müşteri Veritabanı', 'Veri Grafikleri', 'Hakkımda']
+tabs = ['Kredi Sonucu Tahmin', 'Müşteri Veritabanı', 'Veri Grafikleri', 'Hakkımda']
 
 page = streamlit.sidebar.radio('Sekmeler', tabs)
 
@@ -57,7 +57,6 @@ if page == 'Kredi Sonucu Tahmin':
         prediction = model.predict(input_df)
 
         # Tahmin sonucunu kullanıcıya gösterin
-
 
         if prediction[0] == 1:
             streamlit.success("Müşteri krediye uygun")
