@@ -4,7 +4,6 @@ import warnings
 
 warnings.filterwarnings('ignore')
 import pickle
-import plotly.express as px
 
 with open('model.pkl', 'rb') as file:
     model = pickle.load(file)
