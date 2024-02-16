@@ -7,7 +7,6 @@ from streamlit import cursor
 warnings.filterwarnings('ignore')
 import pickle
 
-import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
 
