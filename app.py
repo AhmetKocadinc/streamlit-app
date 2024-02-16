@@ -1,6 +1,7 @@
+import warnings
+
 import pandas as pd
 import streamlit
-import warnings
 
 warnings.filterwarnings('ignore')
 import pickle
@@ -21,7 +22,7 @@ cat_cols = cat_cols + num_but_cat
 df[cat_cols].drop('Loan_ID', axis=1, inplace=True)
 
 streamlit.set_page_config(page_title='Müşteri Kredi Uygunluğu Sorgulama')
-tabs = ['Kredi Sonucu Tahmin', 'Müşteri Veritabanı', 'Veri Grafikleri', 'Hakkımda']
+tabs = ['Kredi Sonucu Tahmin', 'Veri Grafikleri', 'Hakkımda']
 
 page = streamlit.sidebar.radio('Sekmeler', tabs)
 
