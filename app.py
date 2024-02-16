@@ -7,20 +7,9 @@ from streamlit import cursor
 warnings.filterwarnings('ignore')
 import pickle
 
-import psycopg2
-
 import matplotlib.pyplot as plt
 import seaborn as sns
 import plotly.express as px
-
-db_name = 'postgres'
-user = 'postgres'
-password = '1234'
-host = 'localhost'
-port = '5432'
-
-conn = psycopg2.connect(dbname=db_name, user=user, password=password, host=host, port=port)
-cursor = conn.cursor()
 
 
 with open('model.pkl', 'rb') as file:
@@ -43,7 +32,7 @@ page = streamlit.sidebar.radio('Sekmeler', tabs)
 if page == 'Kredi Sonucu Tahmin':
     streamlit.title('Kredi Sonuç Tahmin Sayfası')
     streamlit.write(
-        """Bu sayfada gerekli bilgiler girilerek müşterinin krediye uygun olup olmadığı tahmini yapılmaktadır ve tüm veriler veritabanına kaydedilmektedir.""")
+        """Bu sayfada gerekli bilgiler girilerek müşterinin krediye uygun olup olmadığı tahmini yapılmaktadır..""")
     streamlit.image("kredi.jpg", use_column_width=True, width=200)
     id = streamlit.text_input('Müşteri Numarası Giriniz')
     gender = streamlit.selectbox('Cinsiyet Seçiniz', ['1', '0'])
@@ -85,37 +74,6 @@ if page == 'Kredi Sonucu Tahmin':
         streamlit.write("Girdi Verisi:")
         input_df['Prediction'] = prediction
         streamlit.write(input_df)
-
-        prediction = int(prediction)
-
-        cursor.execute(
-            'insert into customer_tabless (id, gender, married, dependents, education, loanamount, loan_amount_term, prediction) Values (%s,%s,%s,%s,%s,%s,%s,%s)',
-            (id, gender, married, Dependents, Education,  LoanAmount, Loan_Amount_Term, prediction ))
-
-        conn.commit()
-        streamlit.success("Veritabanına başarıyla kaydedildi.")
-
-if page == 'Müşteri Veritabanı':
-    cursor.execute("SELECT * FROM customer_tabless")
-    veriler = cursor.fetchall()
-    streamlit.title('Müşteri Veritabanı')
-    streamlit.image("customer.png", use_column_width=True, width=200)
-
-    df = pd.DataFrame(veriler, columns=[desc[0] for desc in cursor.description])
-
-    if not df.empty:
-        streamlit.dataframe(df)
-
-
-df = pd.read_csv('loan_data.csv')
-df.head()
-
-type(cat_cols)
-
-deger_sil = 'Loan_ID'
-if deger_sil in cat_cols:
-    cat_cols.remove(deger_sil)
-print("Değer silinmiş liste:", cat_cols)
 
 if page == 'Veri Grafikleri':
     streamlit.title('Veri Grafikleri')
